@@ -39,6 +39,9 @@ public class Meeting {
             System.out.println("Meeting is closed");
             System.out.println("Attendee: " + this.attendee);
         }
+        if(!this.location.equalsIgnoreCase("")){
+            System.out.println("Location: " + this.location);
+        }
 //        System.out.println("Year : "+ this.meetingTime.get(Calendar.YEAR));
 //        System.out.println("MONTH : "+ this.meetingTime.get(Calendar.MONTH));
 //        System.out.println("DAY : "+ this.meetingTime.get(Calendar.DAY_OF_MONTH));

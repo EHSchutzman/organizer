@@ -211,13 +211,6 @@ public class MyCalendar {
         }
     }
 
-    protected void printDate(LocalDate d) {
-        for (MyDate date : this.meetings) {
-            if (date.date.equals(d)) {
-                date.printMyDate();
-            }
-        }
-    }
 
     protected void printByWeekday(String weekDay) {
         for (MyDate date : this.meetings) {
@@ -228,23 +221,18 @@ public class MyCalendar {
 
     }
 
-    protected void deleteDate(LocalDate date){
-        for (int i =0; i < this.meetings.size(); i++){
+    protected void deleteDate(LocalDate date) {
+        for (int i = 0; i < this.meetings.size(); i++) {
             MyDate d = this.meetings.get(i);
-            if(d.date.equals(date)){
+            if (d.date.equals(date)) {
                 this.meetings.remove(i);
                 return;
             }
         }
     }
 
-    protected void printDates(){
-        for (MyDate d: this.meetings){
-            System.out.println(d.date.toString());
-        }
-    }
 
-    protected void scheduleMeetingWithLocation(LocalDate date, int hour, int minutes, String name, String location){
+    protected void scheduleMeetingWithLocation(LocalDate date, int hour, int minutes, String name, String location) {
         for (MyDate meeting : this.meetings) {
             if (meeting.date.equals(date)) {
 
@@ -263,5 +251,80 @@ public class MyCalendar {
         }
     }
 
+    protected void cancelMeeting(LocalDate date, int hour, int minutes) {
+
+        for (MyDate d : this.meetings) {
+            if (d.date.equals(date)) {
+                for (Meeting m : d.meetings) {
+                    if (m.meetingTime.get(Calendar.HOUR) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
+                        m.setTaken(false);
+
+                    }
+                }
+            }
+        }
+    }
+
+    protected void showDailySchedule(LocalDate d) {
+        for (MyDate date : this.meetings) {
+            if (date.date.equals(d)) {
+                date.printMyDate();
+            }
+        }
+    }
+
+    protected void showMonthlySchedule(int month) {
+        for (MyDate date : this.meetings) {
+            if (date.date.getMonthValue() == month) {
+                date.printMyDate();
+            }
+        }
+
+    }
+
+    protected void addDayToCalendar() {
+        this.endingDate.add(Calendar.DATE, 1);
+        LocalDate end = LocalDate.of(this.endingDate.get(Calendar.YEAR), this.endingDate.get(Calendar.MONTH), this.endingDate.get(Calendar.DATE));
+        System.out.println("Last Day is " + end.toString());
+        System.out.println("Day of Week is " + end.getDayOfWeek().name());
+        end.plusDays(1);
+
+        while (!checkDayIsWeekday(end)) {
+
+            this.endingDate.add(Calendar.DATE, 1);
+            end = LocalDate.of(this.endingDate.get(Calendar.YEAR), this.endingDate.get(Calendar.MONTH), this.endingDate.get(Calendar.DATE));
+
+        }
+
+        ArrayList<Calendar> meetings = new ArrayList<>();
+        Calendar c = (Calendar) this.startingDate.clone(); // has the proper starting hour
+        c.set(Calendar.MONTH, end.getMonthValue());
+        c.set(Calendar.DAY_OF_MONTH, end.getDayOfMonth());
+        c.set(Calendar.YEAR, end.getYear());
+        MyDate myDate = new MyDate(end);
+        for (int i = 0; i < this.numberOfMeetings; i++) {
+            meetings.add((Calendar) c.clone());
+            c.add(Calendar.MINUTE, this.meetingDuration);
+        }
+        for (Calendar cal : meetings) {
+            Meeting m = new Meeting(cal, this.meetingDuration);
+            myDate.addMeeting(m);
+        }
+        this.meetings.add(myDate);
+    }
+
+    protected boolean checkDayIsWeekday(LocalDate d) {
+
+        switch (d.getDayOfWeek()) {
+
+            case SATURDAY:
+                return false;
+            case SUNDAY:
+                return false;
+            default:
+                return true;
+
+        }
+    }
 }
 

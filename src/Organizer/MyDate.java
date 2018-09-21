@@ -21,8 +21,10 @@ public class MyDate {
 
     public void printMyDate(){
 
-        System.out.println("\n\n$$$$$ NEW DATE $$$$$");
+        System.out.println("\n################");
         System.out.println(this.date.toString());
+        System.out.println("################\n");
+
         for (Meeting m:this.meetings
              ) {
             m.printMeeting();
