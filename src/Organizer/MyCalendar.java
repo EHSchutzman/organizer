@@ -26,7 +26,10 @@ public class MyCalendar {
 
 
 //    protected LocalDate localDate = LocalDate.of(2018, 9, 16);
+    public MyCalendar(){
 
+
+    }
     public MyCalendar(String name, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay, int earlyHour, int endingHour, int meetingDuration) {
         this.name = name; //Name of calendar
 
@@ -325,6 +328,47 @@ public class MyCalendar {
                 return true;
 
         }
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStartingDate(Calendar startingDate) {
+        this.startingDate = startingDate;
+    }
+
+    public void setEndingDate(Calendar endingDate) {
+        this.endingDate = endingDate;
+    }
+
+    public void setEarlyHour(int earlyHour) {
+        this.earlyHour = earlyHour;
+    }
+
+    public void setEndingHour(int endingHour) {
+        this.endingHour = endingHour;
+    }
+
+    public void setMeetingDuration(int meetingDuration) {
+        this.meetingDuration = meetingDuration;
+    }
+
+    public void setNumberOfMeetings(int numberOfMeetings) {
+        this.numberOfMeetings = numberOfMeetings;
+    }
+
+    public void setNumWorkingDays(long numWorkingDays) {
+        this.numWorkingDays = numWorkingDays;
+    }
+
+    public void setWorkingDates(List<LocalDate> workingDates) {
+        this.workingDates = workingDates;
+    }
+
+    public void setMeetings(ArrayList<MyDate> meetings) {
+        this.meetings = meetings;
     }
 }
 
