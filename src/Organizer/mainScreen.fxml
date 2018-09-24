@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Organizer.MainScreenController">
+   <children>
+      <GridPane layoutY="4.0" prefHeight="1000.0" prefWidth="1000.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="146.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="142.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="135.0" minWidth="10.0" prefWidth="134.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="142.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="88.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="126.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.0" minWidth="10.0" prefWidth="88.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="119.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="newCalCreateButton" mnemonicParsing="false" onAction="#onNewCalendarClick" prefHeight="27.0" prefWidth="142.0" text="Create Calendar" textAlignment="CENTER" />
+            <Button fx:id="delCalButton" mnemonicParsing="false" onAction="#deleteCalendar" text="Delete Calendar" GridPane.columnIndex="5" />
+            <Button fx:id="loadCalButton" mnemonicParsing="false" onAction="#loadCalendar" text="Load Calendar" GridPane.columnIndex="3" />
+            <TextField fx:id="newCalName" promptText="Name" GridPane.rowIndex="1" />
+            <TextField fx:id="newCalMeetDur" promptText="Meeting Duration" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="newCalStartYear" promptText="Starting Year" GridPane.rowIndex="2" />
+            <TextField fx:id="newCalEndYear" promptText="Ending Year" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="newCalStartMonth" promptText="Starting Month" GridPane.rowIndex="3" />
+            <TextField fx:id="newCalEndMonth" promptText="Ending Month" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="newCalStartDate" promptText="Starting Date" GridPane.rowIndex="4" />
+            <TextField fx:id="newCalEndDate" promptText="Ending Date" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="newCalEarlyHour" promptText="Early Hour" GridPane.rowIndex="5" />
+            <TextField fx:id="newCalEndHour" promptText="Ending Hour" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="loadCalName" promptText="Name" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="delCalName" promptText="Name" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <TextArea fx:id="outputArea" prefHeight="129.0" prefWidth="163.0" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="5" />
+            <TextField fx:id="scheduleMeetingYear" prefHeight="27.0" prefWidth="105.0" promptText="Year" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <TextField fx:id="scheduleMeetingMonth" promptText="Month" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <TextField fx:id="scheduleMeetingDay" promptText="Day" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <TextField fx:id="scheduleMeetingHour" promptText="Hour" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <TextField fx:id="scheduleMeetingMinutes" promptText="Minute" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+            <Button fx:id="scheduleMeetingButton" mnemonicParsing="false" onAction="#scheduleMeeting" text="Schedule Meeting" GridPane.rowIndex="8" />
+            <Button fx:id="cancelMeetingButton" mnemonicParsing="false" onAction="#cancelMeeting" text="Cancel Meeting" GridPane.rowIndex="9" />
+            <TextField fx:id="scheduleMeetingName" promptText="Name" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <Button fx:id="blockDayOfWeekButton" mnemonicParsing="false" onAction="#blockWeekday" prefHeight="27.0" prefWidth="142.0" text="Block Time of Day" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+            <TextField fx:id="blockWeekday" promptText="Weekday" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+            <TextField fx:id="blockHour" promptText="Hour" GridPane.columnIndex="4" GridPane.rowIndex="12" />
+            <TextField fx:id="blockMinutes" promptText="Minutes" GridPane.columnIndex="4" GridPane.rowIndex="13" />
+            <TextField fx:id="blockYear" promptText="Year" GridPane.columnIndex="6" GridPane.rowIndex="11" />
+            <TextField fx:id="blockMonth" promptText="Month" GridPane.columnIndex="6" GridPane.rowIndex="12" />
+            <TextField fx:id="blockDay" promptText="Day" GridPane.columnIndex="6" GridPane.rowIndex="13" />
+            <Button fx:id="blockDayButton" mnemonicParsing="false" onAction="#blockWholeDay" text="Block Day" GridPane.columnIndex="7" GridPane.rowIndex="11" />
+            <Button fx:id="monthlyScheduleButton" mnemonicParsing="false" onAction="#showMonthlySchedule" text="Monthly Schedule" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Button fx:id="dailyScheduleButton" mnemonicParsing="false" onAction="#showDailySchedule" prefHeight="27.0" prefWidth="120.0" text="Daily Schedule" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+            <TextField fx:id="dailyScheduleDay" promptText="Day" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+            <TextField fx:id="dailyScheduleMonth" promptText="Month" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+            <TextField fx:id="dailyScheduleYear" promptText="Year" GridPane.columnIndex="7" GridPane.rowIndex="6" />
+            <TextField fx:id="monthlyScheduleMonth" promptText="Month" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Button fx:id="addDayButton" mnemonicParsing="false" onAction="#addDayAction" text="Add Day" GridPane.columnIndex="3" GridPane.rowIndex="16" />
+            <TextField fx:id="addDayDay" promptText="Day" GridPane.columnIndex="4" GridPane.rowIndex="16" />
+            <TextField fx:id="addDayMonth" promptText="Month" GridPane.columnIndex="5" GridPane.rowIndex="16" />
+            <TextField fx:id="addDayYear" promptText="Year" GridPane.columnIndex="6" GridPane.rowIndex="16" />
+            <Button fx:id="blockTimeslotButton" mnemonicParsing="false" onAction="#blockTimeslot" text="Block Timeslot" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+            <Text fx:id="loadedCalendar" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="7" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#unloadCalendar" text="Unload Calendar" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+            <TextField fx:id="scheduleMeetingLocation" promptText="Location (Opt)" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+            <Button fx:id="printCalendarButton" mnemonicParsing="false" onAction="#printWholeCal" text="Print Calendar" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <Button fx:id="delteButton" mnemonicParsing="false" onAction="#deleteDay" text="Delete Day" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

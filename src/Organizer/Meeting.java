@@ -31,24 +31,24 @@ public class Meeting {
         return taken;
     }
 
-    public void printMeeting(){
-        System.out.println("\n\n");
+    public String printMeeting(){
+        String output = "\n";
         if(!this.isTaken()){
-            System.out.println("Meeting is open");
+            output+= "\nMeeting is open";
         }else{
-            System.out.println("Meeting is closed");
-            System.out.println("Attendee: " + this.attendee);
+            output+= "\nMeeting is closed";
+            output+= "\nAttendee: " + this.attendee;
         }
         if(!this.location.equalsIgnoreCase("")){
-            System.out.println("Location: " + this.location);
+            output+= "\nLocation: " + this.location;
         }
 //        System.out.println("Year : "+ this.meetingTime.get(Calendar.YEAR));
 //        System.out.println("MONTH : "+ this.meetingTime.get(Calendar.MONTH));
 //        System.out.println("DAY : "+ this.meetingTime.get(Calendar.DAY_OF_MONTH));
-        System.out.println("Hour : "+ this.meetingTime.get(Calendar.HOUR_OF_DAY));
-        System.out.println("Minutes : "+ this.meetingTime.get(Calendar.MINUTE));
+        output+= "\nHour : "+ this.meetingTime.get(Calendar.HOUR_OF_DAY);
+        output+= "\nMinutes : "+ this.meetingTime.get(Calendar.MINUTE);
 
-
+        return output;
     }
 
     public void setLocation(String location){

@@ -33,6 +33,10 @@ public class MyCalendar {
     public MyCalendar(String name, int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay, int earlyHour, int endingHour, int meetingDuration) {
         this.name = name; //Name of calendar
 
+        if(startYear == endYear && startDay == endDay && startMonth == endMonth){
+            System.out.println("Starts and ends same day");
+            endDay+= 1;
+        }
 
         this.earlyHour = earlyHour; //starting hour for meetings
         this.endingHour = endingHour; // ending hour for meetings
@@ -53,6 +57,7 @@ public class MyCalendar {
         this.endingDate.set(Calendar.MONTH, endMonth);
         this.endingDate.set(Calendar.DAY_OF_MONTH, endDay);
 
+
         //caluclate the list of working dates
         this.workingDates = getDatesBetween(LocalDate.of(this.startingDate.get(Calendar.YEAR), this.startingDate.get(Calendar.MONTH), this.startingDate.get(Calendar.DATE)),
                 LocalDate.of(this.endingDate.get(Calendar.YEAR), this.endingDate.get(Calendar.MONTH), this.endingDate.get(Calendar.DATE)));
@@ -64,7 +69,6 @@ public class MyCalendar {
 
         //create the ArrayList of MyDates of each meeting
         createMeetings();
-        this.printCalendar();
 
     }
 
@@ -92,11 +96,16 @@ public class MyCalendar {
         }
     }
 
-    protected void printCalendar() {
+    protected String printCalendar() {
+        String output = "";
+        System.out.println("printing cal");
+        System.out.println(this.meetings.size());
         for (MyDate d : this.meetings) {
-            d.printMyDate();
-        }
 
+            System.out.println(d.date.toString());
+            output+= d.printMyDate(false);
+        }
+        return output;
     }
 
     /**
@@ -145,7 +154,7 @@ public class MyCalendar {
             if (meeting.date.equals(date)) {
 
                 for (Meeting m : meeting.meetings) {
-                    if (m.meetingTime.get(Calendar.HOUR) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
+                    if (m.meetingTime.get(Calendar.HOUR_OF_DAY) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
                         if (!m.isTaken()) {
                             m.setAttendee(name);
                             m.setTaken(true);
@@ -203,7 +212,7 @@ public class MyCalendar {
 
     protected void scheduleForTime(int hour, int minutes, MyDate date) {
         for (Meeting m : date.meetings) {
-            if (m.meetingTime.get(Calendar.HOUR) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
+            if (m.meetingTime.get(Calendar.HOUR_OF_DAY) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
 
                 if (!m.isTaken()) {
                     m.setTaken(true);
@@ -218,7 +227,7 @@ public class MyCalendar {
     protected void printByWeekday(String weekDay) {
         for (MyDate date : this.meetings) {
             if (date.date.getDayOfWeek().name().equalsIgnoreCase(weekDay)) {
-                date.printMyDate();
+                date.printMyDate(true);
             }
         }
 
@@ -240,7 +249,7 @@ public class MyCalendar {
             if (meeting.date.equals(date)) {
 
                 for (Meeting m : meeting.meetings) {
-                    if (m.meetingTime.get(Calendar.HOUR) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
+                    if (m.meetingTime.get(Calendar.HOUR_OF_DAY) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
                         if (!m.isTaken()) {
                             m.setLocation(location);
                             m.setAttendee(name);
@@ -259,7 +268,7 @@ public class MyCalendar {
         for (MyDate d : this.meetings) {
             if (d.date.equals(date)) {
                 for (Meeting m : d.meetings) {
-                    if (m.meetingTime.get(Calendar.HOUR) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
+                    if (m.meetingTime.get(Calendar.HOUR_OF_DAY) == hour && m.meetingTime.get(Calendar.MINUTE) == minutes) {
                         m.setTaken(false);
 
                     }
@@ -268,52 +277,58 @@ public class MyCalendar {
         }
     }
 
-    protected void showDailySchedule(LocalDate d) {
+    protected String showDailySchedule(LocalDate d) {
+        String output = "";
         for (MyDate date : this.meetings) {
             if (date.date.equals(d)) {
-                date.printMyDate();
+                output += date.printMyDate(true);
             }
         }
+        return output;
     }
 
-    protected void showMonthlySchedule(int month) {
+    protected String showMonthlySchedule(int month) {
+        String output = "";
         for (MyDate date : this.meetings) {
             if (date.date.getMonthValue() == month) {
-                date.printMyDate();
+                output+= date.printMyDate(true);
+
             }
         }
-
+        return output;
     }
 
-    protected void addDayToCalendar() {
-        this.endingDate.add(Calendar.DATE, 1);
-        LocalDate end = LocalDate.of(this.endingDate.get(Calendar.YEAR), this.endingDate.get(Calendar.MONTH), this.endingDate.get(Calendar.DATE));
-        System.out.println("Last Day is " + end.toString());
-        System.out.println("Day of Week is " + end.getDayOfWeek().name());
-        end.plusDays(1);
+    protected void addDayToCalendar(LocalDate date) {
 
-        while (!checkDayIsWeekday(end)) {
+        if(date.getDayOfWeek().name().equalsIgnoreCase("Saturday") || date.getDayOfWeek().name().equalsIgnoreCase("sunday")){
+            return;
+        }else{
 
-            this.endingDate.add(Calendar.DATE, 1);
-            end = LocalDate.of(this.endingDate.get(Calendar.YEAR), this.endingDate.get(Calendar.MONTH), this.endingDate.get(Calendar.DATE));
+            MyDate myDate = new MyDate(date);
+
+            ArrayList<Calendar> meetings = new ArrayList<>();
+            Calendar c = (Calendar) this.startingDate.clone(); // has the proper starting hour
+            c.set(Calendar.MONTH, date.getMonthValue());
+            c.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
+            c.set(Calendar.YEAR, date.getYear());
+            c.set(Calendar.HOUR_OF_DAY, this.earlyHour);
+            c.set(Calendar.MINUTE, 0);
+            for (int i = 0; i < this.numberOfMeetings; i++) {
+                meetings.add((Calendar) c.clone());
+                c.add(Calendar.MINUTE, this.meetingDuration);
+            }
+            for (Calendar cal : meetings) {
+                Meeting m = new Meeting(cal, this.meetingDuration);
+                myDate.addMeeting(m);
+            }
+
+            this.meetings.add(myDate);
+
 
         }
 
-        ArrayList<Calendar> meetings = new ArrayList<>();
-        Calendar c = (Calendar) this.startingDate.clone(); // has the proper starting hour
-        c.set(Calendar.MONTH, end.getMonthValue());
-        c.set(Calendar.DAY_OF_MONTH, end.getDayOfMonth());
-        c.set(Calendar.YEAR, end.getYear());
-        MyDate myDate = new MyDate(end);
-        for (int i = 0; i < this.numberOfMeetings; i++) {
-            meetings.add((Calendar) c.clone());
-            c.add(Calendar.MINUTE, this.meetingDuration);
-        }
-        for (Calendar cal : meetings) {
-            Meeting m = new Meeting(cal, this.meetingDuration);
-            myDate.addMeeting(m);
-        }
-        this.meetings.add(myDate);
+
+
     }
 
     protected boolean checkDayIsWeekday(LocalDate d) {

@@ -15,34 +15,37 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Parent root = FXMLLoader.load(getClass().getResource("mainScreen.fxml"));
+        primaryStage.setTitle("CMS");
+        primaryStage.setScene(new Scene(root, 1000, 1000));
         primaryStage.show();
     }
 
 
     public static void main(String[] args) {
-        MyCalendar calendar = new MyCalendar("test", 2018, 7,
-                10, 2018, 7, 12, 8, 10, 20);
 
-
-        calendar.addDayToCalendar();
-        calendar.scheduleSingleMeeting(LocalDate.of(2018, 7, 11), 8, 0, "Ethan");
-        calendar.showDailySchedule(LocalDate.of(2018, 7, 11));
-
-        saveCalendar(calendar);
-        MyCalendar newCal = readJSON("test.calendar");
-
-        newCal.showDailySchedule(LocalDate.of(2018, 7, 11));
-
-
+        launch(args);
+//        MyCalendar calendar = new MyCalendar("personal", 2018, 7,
+//                10, 2018, 7, 12, 8, 10, 20);
+//
+//
+//
+//        saveCalendar(calendar);
+//
+//
+//        MyCalendar newCal = readJSON("personal.calendar");
+//
+//
+//        calendar.printByWeekday("Monday");
+//        newCal.printByWeekday("Monday");
+//
 
         //TODO Delete Calendar by Name
         //TODO Load Calendar by Name
@@ -86,7 +89,7 @@ public class Main extends Application {
                 calendar.add(m.meetingTime.get(Calendar.YEAR));
                 calendar.add(m.meetingTime.get(Calendar.MONTH));
                 calendar.add(m.meetingTime.get(Calendar.DATE));
-                calendar.add(m.meetingTime.get(Calendar.HOUR));
+                calendar.add(m.meetingTime.get(Calendar.HOUR_OF_DAY));
                 calendar.add(m.meetingTime.get(Calendar.MINUTE));
                 calendar.add(m.meetingDuration);
                 calendar.add(m.taken);
@@ -100,6 +103,7 @@ public class Main extends Application {
         }
 
         obj.put("name", c.name);
+
 
         try (FileWriter f = new FileWriter(obj.get("name").toString() + ".calendar")) {
             f.write(obj.toJSONString());
@@ -161,10 +165,10 @@ public class Main extends Application {
             calendar.setEndingHour(endingHour);
             calendar.setMeetingDuration(toIntExact((long) jsonObject.get("meetingDuration")));
             calendar.setNumberOfMeetings(toIntExact((long) jsonObject.get("numberOfMeetings")));
+
             // loop array
 
             for (Object key: jsonObject.keySet()){
-
                 try{
                    LocalDate date = LocalDate.parse(key.toString());
                    ldates.add(date);
@@ -172,24 +176,26 @@ public class Main extends Application {
 
                 }catch (Exception e){
 
+                    //do nothing
                 }
             }
 
-
+            Collections.sort(ldates);
             for (LocalDate date: ldates){
-
+                System.out.println(date.toString());
                 MyDate myDate = new MyDate(date);
 
                 JSONObject object = (JSONObject) jsonObject.get(date.toString());
+
                 for (Object key: object.keySet()){
                     JSONArray meetingInfo = (JSONArray) object.get(key);
-
                     long year = (long) meetingInfo.get(0);
                     long month = (long) meetingInfo.get(1);
                     long day = (long) meetingInfo.get(2);
                     long hour  = (long) meetingInfo.get(3);
                     long minutes = (long) meetingInfo.get(4);
                     long duration = (long) meetingInfo.get(5);
+
                     boolean taken = (boolean) meetingInfo.get(6);
                     String attendee = (String) meetingInfo.get(7);
                     String location = (String) meetingInfo.get(8);
@@ -197,16 +203,19 @@ public class Main extends Application {
                     Calendar c =  Calendar.getInstance();
                     c.set(Calendar.YEAR, toIntExact(year));
                     c.set(Calendar.MONTH, toIntExact(month));
-                    c.set(Calendar.DATE, toIntExact(day));
-                    c.set(Calendar.HOUR, toIntExact(hour));
+                    c.set(Calendar.DAY_OF_MONTH, toIntExact(day));
+                    c.set(Calendar.HOUR_OF_DAY, toIntExact(hour));
                     c.set(Calendar.MINUTE, toIntExact(minutes));
+
                     Meeting m = new Meeting(c, toIntExact(duration));
                     m.setTaken(taken);
                     m.setAttendee(attendee);
                     m.setLocation(location);
+
                     myDate.addMeeting(m);
 
                 }
+                calendar.meetings.add(myDate);
             }
 
 
@@ -217,6 +226,7 @@ public class Main extends Application {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         return calendar;
     }
 

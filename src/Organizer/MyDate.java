@@ -19,17 +19,23 @@ public class MyDate {
     }
 
 
-    public void printMyDate(){
+    public String printMyDate(boolean careAboutTaken){
+        String output = "";
+        output += "\n################";
+        output += this.date.toString();
+        output += "################\n";
 
-        System.out.println("\n################");
-        System.out.println(this.date.toString());
-        System.out.println("################\n");
-
-        for (Meeting m:this.meetings
-             ) {
-            m.printMeeting();
+        for (Meeting m:this.meetings) {
+            if(careAboutTaken){
+                if(m.isTaken()){
+                    output +=  m.printMeeting();
+                }
+            }
+            else{
+                output +=  m.printMeeting();
+            }
         }
-        System.out.println("\n\n");
 
+        return output;
     }
 }
